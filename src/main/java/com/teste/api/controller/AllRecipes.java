@@ -52,12 +52,20 @@ public class AllRecipes {
     }
 
     @PutMapping("/{id}")
-    public String UpdateRecipe(@PathVariable Long id, @RequestBody String body) {
-        return "receita " + id + " atualizada com sucesso";
+    public RecipeModel UpdateRecipe(@PathVariable Long id, @RequestBody RecipeDTO  body) {
+        Optional<RecipeModel> recipe = recipeRepository.findById(id);
+
+        if (!recipe.isPresent()){
+            //tratar erro
+        }
+
+        RecipeModel newRecipe = new RecipeModel(body);
+        newRecipe.setId(id);
+        return recipeRepository.save(newRecipe);
      }
     
     @DeleteMapping("/{id}")
-     public String DeleteRecipe(@PathVariable Long id) { 
-        return "receita " + id + " deletada com seucesos";
+     public void DeleteRecipe(@PathVariable Long id) { 
+        recipeRepository.deleteById(id);
      }
 }
