@@ -1,5 +1,7 @@
 package com.teste.api.models;
 
+import com.teste.api.dtos.RecipeDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +21,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "recipes")
 public class RecipeModel {
+
+
+    public RecipeModel(RecipeDTO dto) {
+        this.title = dto.getTitle();
+        this.ingredients = dto.getIngredients();
+        this.steps = dto.getSteps();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

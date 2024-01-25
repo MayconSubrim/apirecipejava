@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teste.api.dtos.RecipeDTO;
 import com.teste.api.models.RecipeModel;
 import com.teste.api.repository.RecipeRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/recipes")
@@ -43,9 +46,9 @@ public class AllRecipes {
     }
 
     @PostMapping()
-    public String CreatRecipe(@RequestBody String body){
-        return body;
- 
+    public RecipeModel CreatRecipe(@RequestBody @Valid RecipeDTO body){
+        RecipeModel recipe = new RecipeModel(body);
+        return recipeRepository.save(recipe);
     }
 
     @PutMapping("/{id}")
