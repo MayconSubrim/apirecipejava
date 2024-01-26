@@ -33,7 +33,7 @@ public class RecipeModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(length = 150, nullable = false)
+    @Column(length = 150, nullable = false, unique = true)
     private String title;
 
     @Column(nullable = false)

@@ -7,5 +7,5 @@ import com.teste.api.models.RecipeModel;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeModel, Long>{
-    
+    boolean existsByTitle(String title);
 }
