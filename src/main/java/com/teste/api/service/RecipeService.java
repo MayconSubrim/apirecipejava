@@ -6,15 +6,23 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.teste.api.dtos.RecipeDTO;
+import com.teste.api.models.CategoryModel;
 import com.teste.api.models.RecipeModel;
+import com.teste.api.models.UserModel;
+import com.teste.api.repository.CatergoryRepository;
 import com.teste.api.repository.RecipeRepository;
+import com.teste.api.repository.UserRepository;
 
 @Service
 public class RecipeService {
     final RecipeRepository recipeRepository;
+    final UserRepository userRepository;
+    final CatergoryRepository catergoryRepository;
 
-    RecipeService(RecipeRepository recipeRepository){
+    RecipeService(RecipeRepository recipeRepository, UserRepository userRepository, CatergoryRepository catergoryRepository){
         this.recipeRepository = recipeRepository;
+        this.userRepository = userRepository;
+        this.catergoryRepository = catergoryRepository;
     }
 
     public  List<RecipeModel> findAll(){
@@ -29,7 +37,17 @@ public class RecipeService {
         if (recipeRepository.existsByTitle(dto.getTitle())) {
             return Optional.empty();
         }
-        RecipeModel recipe = new RecipeModel(dto);
+
+        Optional<UserModel> user = userRepository.findById(dto.getAuthorId());
+
+        if (!user.isPresent()) {
+            return Optional.empty();
+        }
+
+        List<CategoryModel> categorys = catergoryRepository.findAllById(dto.getCategoryIds());
+
+
+        RecipeModel recipe = new RecipeModel(dto, user.get(), categorys);
         return Optional.of(recipeRepository.save(recipe));
     }
 

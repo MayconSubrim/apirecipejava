@@ -54,7 +54,8 @@ public class AllRecipes {
         if (!recipe.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("a recipe with title alredy exists");
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(recipeService.save(body)) ;
+        recipeService.save(body);
+        return ResponseEntity.status(HttpStatus.CREATED).body(body) ;
     }
 
     @PutMapping("/{id}")
